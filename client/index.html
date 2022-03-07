@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>目標貯金</title>
+		<meta name="description" content="目標達成目指して仮想通貨で貯金しよう！">
+		<meta name="keywords" content="blockchain, web3.0, piggy bank">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<script src="./assets/abi.js"></script>
+		<link rel="stylesheet" href="./assets/style.css">
+		<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a href="index.html" class="navbar-brand fw-bold">目標貯金</a>
+				<button type="button" class="btn login btn-warning d-flex">connect wallet</button>
+			</div>
+		</nav>
+
+		<div id="mygoals" class="mygoals my-3">
+			<div class="card">
+				<div class="card-header">
+				  5.13 eth
+				</div>
+				<div class="card-body">
+				  <h5 class="card-title">スクワット千回</h5>
+				  <button type="button" class="btn btn-primary clearBtn">達成</a>
+				</div>
+			  </div>
+		</div>
+
+	<footer class="footer fixed-bottom">
+		<div class="row bg-dark ps-3">
+			<div class="col-6 p-2">
+				<input type="text" id="titleTxt" placeholder="目標の内容" class="form-control"></input>
+			</div>
+			<div class="col-3 p-2">
+				<input type="number" id="amountTxt" placeholder="貯金額(ether)" class="form-control"></input>
+			</div>
+			<div class="col-3 p-2 text-center">
+				<button type="button" class="btn setBtn btn-warning w-75">追加</button>
+			</div>
+		</div>
+	</footer>
+
+	<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="./assets/script.js"></script>
+	</body>
+</html>
