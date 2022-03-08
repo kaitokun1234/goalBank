@@ -67,6 +67,8 @@ async function set(title, amount){
     `);
     mygoals = await bankInst.methods.getMyGoals().call();
     listMyGoals();
+    var titletxt = document.getElementById('titleTxt').value="";
+    var amounttxt = document.getElementById("amountTxt").value="";
   } catch (error){
     throw (error);
   }
@@ -99,12 +101,18 @@ async function clear(id){
   
     for (var i = 0; i < mygoals.length; i++) {
       var goal = mygoals[i];
+      var clearbtn ="disabled";
+      if(goal[2] == true){
+        clearbtn = "disabled";
+      }else{
+        clearbtn = "";
+      }
       var parts = 
       `<div class="card mb-3">
         <div class="card-header"> ${web3.utils.fromWei(goal[1], "ether")} Eth </div>
         <div class="card-body">
             <h5 class="card-title"> ${goal[0]} </h5>
-            <button type="button" class="btn btn-primary clearBtn" data-id="${goal[3]}"> ${goal[2]} </button>
+            <div class="text-end"><button type="button" class="btn btn-primary clearBtn" data-id="${goal[3]}" ${clearbtn}> 達成 </button></div>
         </div>
       </div>`;
   
