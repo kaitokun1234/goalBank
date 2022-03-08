@@ -1,15 +1,16 @@
 let web3, user, bankInst, mygoals;
-const bankAddr = "0xaeff158076CA5FCA63F79657190797eae0Ec587E";
+const bankAddr = "0x48B793dd17Bb85ae8a227Cfb29f11954B976ce8D";
 
-$(document).ready(async () => {
+
+$(document).ready(() => {
   if(window.ethereum){
     web3 = new Web3(Web3.givenProvider);
   }else{
-    alert("メタマスクをインストールしてください");
+  alert("メタマスクをインストールしてください");
   }
 });
 
-$(".btn.login").click(async () => {
+async function trylogin(){
   try{
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
@@ -22,49 +23,91 @@ $(".btn.login").click(async () => {
   } catch (error){
     alert(error.message);
   }
-})
-
-$(".btn.setBtn").click(async () => {
-  var titleval = $('#titleTxt').val();
-  var amountval = $('#amountTxt').val();
-  var amount = web3.utils.toWei(String(amountval), 'ether');
-  if(titleval == "" || amountval == "" || !user){
-    alert("目標内容や価格が空白か、ウォレットが接続されていません");
-    return;
-  }
-  set(titleval, amount);
-  //location.reload();
-})
-
-function listMyGoals(){
-  $('.mygoals').html(mygoals);
-  console.log(mygoals);
-  /*
-  var div = document.getElementById('posts');
-  for (var i = 0; i < posts.length; i++) {
-    let dateTime = new Date(posts[i][1] + 1000);
-    var parts = 
-    '<div class="card">'
-          +'<div class="card-body">'
-          +'<h6 class="card-subtitle mb-2 text-muted small">'
-            + (i+1) +' 名無しさん '+dateTime+'</h6>'
-            +'<p class="card-text">'+posts[i][0]+'</p></div></div>';
-   div.insertAdjacentHTML('beforeend', parts);
-  }
-  */
 }
+
+$(function() {
+
+  $(".btn.login").click(async () => {
+    trylogin();
+  })
+
+  $(".btn.setBtn").click(async () => {
+    var titleval = $('#titleTxt').val();
+    var amountval = $('#amountTxt').val();
+    var amount = web3.utils.toWei(String(amountval), 'ether');
+    if(titleval == "" || amountval == "" || !user){
+      alert("目標内容や価格が空白か、ウォレットが接続されていません");
+      return;
+    }
+    set(titleval, amount);
+    //location.reload();
+  })
+  
+  $(document).on("click", ".clearBtn", async function(){
+    var datatxt = $(this).data('id');
+    console.log(datatxt);
+    await clear(datatxt);
+  });  
+})
 
 async function set(title, amount){
   try{
     var setTx = await bankInst.methods
     .set(title, amount)
     .send({value:amount , from:user});
-    console.log(setTx);
+    var eventData = setTx.events.seted.returnValues;
+    var amountDisplay = parseFloat(
+      web3.utils.fromWei(eventData.amount, "ether")
+      );
+    var titleDisplay = eventData.title;
+    alert(`
+      goal set successful!\n 
+      title: ${titleDisplay}\n 
+      amount: ${amountDisplay.toFixed(7)}
+    `);
+    mygoals = await bankInst.methods.getMyGoals().call();
+    listMyGoals();
   } catch (error){
     throw (error);
   }
 }
 
 async function clear(id){
+  try{
+    var clearTx = await bankInst.methods
+    .clear(id)
+    .send({from:user});
+    var eventData = clearTx.events.cleared.returnValues;
+    var amountDisplay = parseFloat(
+      web3.utils.fromWei(eventData.amount, "ether")
+      );
+    var titleDisplay = eventData.title;
+    alert(`
+      goal clear successful!\n 
+      title: ${titleDisplay}\n 
+      amount: ${amountDisplay.toFixed(7)}
+    `);
+    mygoals = await bankInst.methods.getMyGoals().call();
+    listMyGoals();
+  } catch (error){
+    throw (error);
+  }}
   
-}
+  function listMyGoals(){
+    $('#mygoals').html("");
+    var div = document.getElementById('mygoals');
+  
+    for (var i = 0; i < mygoals.length; i++) {
+      var goal = mygoals[i];
+      var parts = 
+      `<div class="card mb-3">
+        <div class="card-header"> ${web3.utils.fromWei(goal[1], "ether")} Eth </div>
+        <div class="card-body">
+            <h5 class="card-title"> ${goal[0]} </h5>
+            <button type="button" class="btn btn-primary clearBtn" data-id="${goal[3]}"> ${goal[2]} </button>
+        </div>
+      </div>`;
+  
+     div.insertAdjacentHTML('beforeend', parts);
+    }
+  }

@@ -1,6 +1,44 @@
 var abi = {
 	bank: [
 		{
+		  "anonymous": false,
+		  "inputs": [
+			{
+			  "indexed": true,
+			  "internalType": "string",
+			  "name": "title",
+			  "type": "string"
+			},
+			{
+			  "indexed": false,
+			  "internalType": "uint256",
+			  "name": "amount",
+			  "type": "uint256"
+			}
+		  ],
+		  "name": "cleared",
+		  "type": "event"
+		},
+		{
+		  "anonymous": false,
+		  "inputs": [
+			{
+			  "indexed": true,
+			  "internalType": "string",
+			  "name": "title",
+			  "type": "string"
+			},
+			{
+			  "indexed": false,
+			  "internalType": "uint256",
+			  "name": "amount",
+			  "type": "uint256"
+			}
+		  ],
+		  "name": "seted",
+		  "type": "event"
+		},
+		{
 		  "inputs": [
 			{
 			  "internalType": "uint256",

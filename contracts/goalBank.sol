@@ -21,12 +21,16 @@ pragma solidity >=0.7.0 <0.9.0;
     mapping(uint => address) private goalToUser;
     mapping(address => uint) private userGoalCount;
 
+    event seted( string indexed title, uint amount );
+    event cleared( string indexed title, uint amount );
+
      function set(string memory _title, uint _amount) public payable {
          require(msg.value == _amount, "Insufficient fund");
          uint _id = goals.length;
          goals.push(Goal(_title, _amount, false, _id));
          goalToUser[_id] = msg.sender;
          userGoalCount[msg.sender]++;
+         emit seted(_title, _amount);
      }
 
      function clear(uint _id) public{
@@ -38,6 +42,7 @@ pragma solidity >=0.7.0 <0.9.0;
          _goal.complete=true;
          (bool success, ) = payable(msg.sender).call{value: _amount}("");
          require(success, "Eth transfer failed");
+         emit cleared(_goal.title, _goal.amount);
      }
 
       function getMyGoals() public view returns(Goal[] memory){
