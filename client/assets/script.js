@@ -10,6 +10,10 @@ $(document).ready(() => {
   }
 });
 
+$(function() {
+  $('#mygoals').sortable();
+});
+
 async function trylogin(){
   try{
     const accounts = await window.ethereum.request({
@@ -108,14 +112,19 @@ async function clear(id){
         clearbtn = "";
       }
       var parts = 
-      `<div class="card mb-3">
+      `<li class="card">
         <div class="card-header"> ${web3.utils.fromWei(goal[1], "ether")} Eth </div>
         <div class="card-body">
             <h5 class="card-title"> ${goal[0]} </h5>
             <div class="text-end"><button type="button" class="btn btn-primary clearBtn" data-id="${goal[3]}" ${clearbtn}> 達成 </button></div>
-        </div>
-      </div>`;
+        </div></li>`;
   
      div.insertAdjacentHTML('beforeend', parts);
     }
   }
+
+  //materials
+
+  $(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
