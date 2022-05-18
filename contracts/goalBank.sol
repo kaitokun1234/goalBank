@@ -1,11 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: Unlicenced
 
 pragma solidity >=0.7.0 <0.9.0;
-
-/**
- * @title goalBank
- * @dev i dont know what I should write here
- */
 
  contract GoalBank {
 
